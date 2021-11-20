@@ -56,12 +56,14 @@ def create_components(root):
     #operation buttons
     #instantiates button
     buttonEnter = Button(root, text="=", padx=40, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
-    buttonPlus = Button(root, text="+", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
-    buttonMultiply = Button(root, text="X", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    buttonPlus = Button(root, text="+", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"+"))
+    buttonMultiply = Button(root, text="X", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"*"))
+    buttonDivide = Button(root, text="/", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"/"))
     #arranges where button will display
     buttonEnter.grid(row = 4, column=2, columnspan=2)
     buttonPlus.grid(row = 3, column=3)
     buttonMultiply.grid(row = 2, column=3)
+    buttonDivide.grid(row=1, column=3)
 
 #ensures code can only be run as the main file
 if __name__ == "__main__":
