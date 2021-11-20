@@ -4,6 +4,7 @@ def main():
     #creates root window
     root = Tk()
     root.title("Calculator")
+    root.geometry("300x500")
     
     #creates the UI componenets
     create_components(root)
@@ -11,8 +12,15 @@ def main():
     #makes the window visible, must be put last
     root.mainloop()
 
-#needed later for button interaction
-def button_add():
+#button event functions
+def append_calc(e, symbol):
+    e.insert(0,symbol)
+    return
+
+def eval_calc(symbol):
+    return
+
+def clr_calc():
     return
 
 #creates UI components
@@ -23,16 +31,16 @@ def create_components(root):
     
     #numerical buttons
     #instantiates buttons
-    button0 = Button(root, text="0", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button1 = Button(root, text="1", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button2 = Button(root, text="2", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button3 = Button(root, text="3", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button4 = Button(root, text="4", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button5 = Button(root, text="5", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button6 = Button(root, text="6", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button7 = Button(root, text="7", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button8 = Button(root, text="8", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    button9 = Button(root, text="9", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
+    button0 = Button(root, text="0", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"0"))
+    button1 = Button(root, text="1", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"1"))
+    button2 = Button(root, text="2", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    button3 = Button(root, text="3", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    button4 = Button(root, text="4", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    button5 = Button(root, text="5", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    button6 = Button(root, text="6", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    button7 = Button(root, text="7", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    button8 = Button(root, text="8", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    button9 = Button(root, text="9", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
     #arranges where button will display
     button0.grid(row = 4, column=1)
     button1.grid(row = 3, column=0)
@@ -47,9 +55,9 @@ def create_components(root):
 
     #operation buttons
     #instantiates button
-    buttonEnter = Button(root, text="=", padx=40, pady=20, activebackground='gray', bg='white', command=button_add())
-    buttonPlus = Button(root, text="+", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
-    buttonMultiply = Button(root, text="X", padx=20, pady=20, activebackground='gray', bg='white', command=button_add())
+    buttonEnter = Button(root, text="=", padx=40, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    buttonPlus = Button(root, text="+", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    buttonMultiply = Button(root, text="X", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
     #arranges where button will display
     buttonEnter.grid(row = 4, column=2, columnspan=2)
     buttonPlus.grid(row = 3, column=3)
