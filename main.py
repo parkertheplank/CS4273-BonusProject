@@ -1,4 +1,5 @@
 from tkinter import *
+import time
 
 def main():
     #creates root window
@@ -14,29 +15,69 @@ def main():
 
 #button event functions
 def append_calc(e, symbol):
-    global x
-    e.insert(x,symbol)
-    x+=1
-    return
+    global x                  # tracker for spot to insert 
+    global text               # tracker for equation 
+    if(length(text)==True and dotTracker()==True):   # for 8 dig rule
+        e.insert(x,symbol)    # adds text to screen
+        text += str(symbol)   # add to str for equation
+        x+=1                  # to track where to put the text    
+        return
+
+def length(eight):            # to track how many chars are in this for 8 digit only requirement
+    if(len(text)<8):          # just changes from true to false 
+        eight=True            
+    return eight
 
 def eval_calc(symbol):
     return
 
 def clr_calc():
     global x
-    e.delete(x-1, 'end')
-    x=x-1
+    global text
+    global dotCount
+    if x>=0:                  # keeps spot to insert from going negtive
+        e.delete(x-1, 'end')  # deletes last number on screen 
+        text = text[:-1]      # deletes last number on text str
+        x=x-1                 # moves spot to insert back 1
+        dotCount = dotCount-1
+
 
 # for AC button
 def all_clr():
     global x
-    e.delete(0, 'end')
-    x=0
+    global text
+    global dotCount
+    global startCount
+    startCount=False          # resets 3 dot count
+    dotCount = 0              # resets 3 dot count
+    e.delete(0, 'end')        # deletes everything 
+    text =""                  # deletes everything on text str
+    x=0                       # resets spot to insert
     return
 
-   # for the bonus thats for the bonus 
-def change_sign():
+    
+def change_sign():            # for the bonus thats for the bonus
+    global text
+    if(text[:1] == "-"):      # if first char in str - delete it 
+        text = text[1:]
+    else:
+        text = "-" + text     # if first char in str is nothing then add + 
     return
+
+def dotTracker():             # for the bonus thats for the bonus part 2
+    global startCount
+    global three
+    global dotCount
+    if(dotCount>=3):
+        three=False
+    if(dotCount<3):
+        three=True
+    if(text[x-1:] == "."):
+        startCount=True
+    if(startCount==True and three == True):
+        dotCount += 1
+    return three
+
 
 #creates UI components
 def create_components(root):
@@ -72,13 +113,13 @@ def create_components(root):
     #operation buttons
     #instantiates button
     buttonEnter = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc("="))
-    buttonMinus = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc("-"))
+    buttonMinus = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"-"))
     buttonPlus = Button(root, font= 30, text="+", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"+"))
     buttonMultiply = Button(root, font= 30, text="X", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"*"))
     buttonDivide = Button(root, font= 30, text="/", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"/"))
     buttonClear = Button(root, font= 30, text="C", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command= clr_calc)
-    buttonAllClear = Button(root, font= 30, text="AC", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=all_clr())
-    buttonChangeSign = Button(root, font= 30, text="+/-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=change_sign())
+    buttonAllClear = Button(root, font= 30, text="AC", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=all_clr)
+    buttonChangeSign = Button(root, font= 30, text="+/-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=change_sign)
     buttonDot = Button(root, font= 30, text=".", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"."))
 
     #arranges where button will display
@@ -106,6 +147,10 @@ def create_components(root):
 
 
 x=0
+text =""
+dotCount=0
+three = True
+startCount = False
 #ensures code can only be run as the main file
 if __name__ == "__main__":
     main()
