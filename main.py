@@ -38,18 +38,29 @@ def calculate(d):
         '/': truediv
     }
 
-    if d.isdigit():
+    try:
+        d = float(d)
+    except:
+        pass
+    if type(d) == float:
         return float(d)
     for c in op1.keys():
         left, operator, right = d.partition(c)
+        print(left)
+        print(operator)
+        print(right)
         if operator in op1:
             return op1[operator](calculate(left), calculate(right))
 
 def eval_calc():
     global calc
-     
+    global x
+    global text
+    
     calc = str(calculate(text))
     all_clr()
+    x = len(calc)
+    text = calc
     e.insert(1, calc)  
 
 def clr_calc():
@@ -77,12 +88,16 @@ def all_clr():
     return
 
     
-def change_sign():            # for the bonus thats for the bonus
+def change_sign(e):            # for the bonus thats for the bonus
     global text
+    global x
     if(text[:1] == "-"):      # if first char in str - delete it 
-        text = text[1:]
+        text = str(text[1:])
     else:
-        text = "-" + text     # if first char in str is nothing then add + 
+        i = x
+        x = 0
+        text = append_calc(e,"-")     # if first char in str is nothing then add + 
+        x = i
     return
 
 def dotTracker():             # for the bonus thats for the bonus part 2
@@ -140,8 +155,8 @@ def create_components(root):
     buttonDivide = Button(root, font= 30, text="/", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"/"))
     buttonClear = Button(root, font= 30, text="C", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command= clr_calc)
     buttonAllClear = Button(root, font= 30, text="AC", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=all_clr)
-    buttonChangeSign = Button(root, font= 30, text="+/-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=change_sign)
-    buttonDot = Button(root, font= 30, text=".", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"."))
+    buttonChangeSign = Button(root, font= 30, text="+/-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=lambda: change_sign(e))
+    #buttonDot = Button(root, font= 30, text=".", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"."))
 
     #arranges where button will display
     buttonEnter.grid(row = 5, column=3)
@@ -151,7 +166,7 @@ def create_components(root):
     buttonClear.grid(row=1,column=0)
     buttonAllClear.grid(row=1,column=2)
     buttonChangeSign.grid(row=1,column=1)
-    buttonDot.grid(row=5,column=2)
+    #buttonDot.grid(row=5,column=2)
     buttonMinus.grid(row=3,column=3)
 
     # Helps With Allginment of buttons, I couldn't find a better way that didn't use 100 lines of code
@@ -169,6 +184,7 @@ def create_components(root):
 
 x=0
 text =""
+onInput2 = False
 dotCount=0
 three = True
 startCount = False
