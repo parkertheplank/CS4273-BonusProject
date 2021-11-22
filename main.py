@@ -113,7 +113,7 @@ def create_components(root):
     #operation buttons
     #instantiates button
     buttonEnter = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc("="))
-    buttonMinus = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"-"))
+    buttonMinus = Button(root, font= 30, text="-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"-"))
     buttonPlus = Button(root, font= 30, text="+", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"+"))
     buttonMultiply = Button(root, font= 30, text="X", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"*"))
     buttonDivide = Button(root, font= 30, text="/", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"/"))
