@@ -30,7 +30,6 @@ def all_clr():
 def create_components(root):
     #Entry Box
     e = Entry(root, width=40, borderwidth=5)
-    e.pack()
     e.grid(row = 0, column=0, columnspan=4, padx=1, pady=1)
 
     #numerical buttons
@@ -59,7 +58,7 @@ def create_components(root):
 
     #operation buttons
     #instantiates button
-    buttonEnter = Button(root, text="=", padx=40, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
+    buttonEnter = Button(root, text="=", padx=50, pady=20, activebackground='gray', bg='white', command=lambda: append_calc("1"))
     buttonPlus = Button(root, text="+", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"+"))
     buttonMultiply = Button(root, text="X", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"*"))
     buttonDivide = Button(root, text="/", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"/"))
@@ -72,7 +71,7 @@ def create_components(root):
     buttonPlus.grid(row = 3, column=3)
     buttonMultiply.grid(row = 2, column=3)
     buttonDivide.grid(row=1, column=3)
-    buttonClear.grid(row=5,column=3)
+    buttonClear.grid(row=4,column=0)
     #buttonAllClear.grid(row=6,column=3)
 
 #ensures code can only be run as the main file
