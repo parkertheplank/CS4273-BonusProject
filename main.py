@@ -1,5 +1,6 @@
 from tkinter import *
 import time
+from operator import pow, truediv, mul, add, sub  
 
 def main():
     #creates root window
@@ -28,8 +29,28 @@ def length(eight):            # to track how many chars are in this for 8 digit 
         eight=True            
     return eight
 
-def eval_calc(symbol):
-    return
+
+def calculate(d):
+    op1 = {
+        '+': add,
+        '-': sub,
+        '*': mul,
+        '/': truediv
+    }
+
+    if d.isdigit():
+        return float(d)
+    for c in op1.keys():
+        left, operator, right = d.partition(c)
+        if operator in op1:
+            return op1[operator](calculate(left), calculate(right))
+
+def eval_calc():
+    global calc
+     
+    calc = str(calculate(text))
+    all_clr()
+    e.insert(1, calc)  
 
 def clr_calc():
     global x
@@ -112,7 +133,7 @@ def create_components(root):
 
     #operation buttons
     #instantiates button
-    buttonEnter = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc("="))
+    buttonEnter = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=eval_calc)
     buttonMinus = Button(root, font= 30, text="-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"-"))
     buttonPlus = Button(root, font= 30, text="+", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"+"))
     buttonMultiply = Button(root, font= 30, text="X", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"*"))
