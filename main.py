@@ -24,6 +24,7 @@ def eval_calc(symbol):
 
 def clr_calc():
     e.delete(0, 'end')
+    
 # for AC button
 def all_clr():
     return
