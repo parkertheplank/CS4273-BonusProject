@@ -1,4 +1,6 @@
 from tkinter import *
+from typing import Literal
+
 
 def main():
     #creates root window
@@ -14,7 +16,7 @@ def main():
 
 #button event functions
 def append_calc(e, symbol):
-    e.insert(0,symbol)
+    e.insert(9999999,symbol)
     return
 
 def eval_calc(symbol):
@@ -29,7 +31,8 @@ def all_clr():
 #creates UI components
 def create_components(root):
     #Entry Box
-    e = Entry(root, width=40, borderwidth=5)
+    global e
+    e = Entry(root, width=40, borderwidth=5, justify=RIGHT)
     e.grid(row = 0, column=0, columnspan=4, padx=1, pady=1)
 
     #numerical buttons
