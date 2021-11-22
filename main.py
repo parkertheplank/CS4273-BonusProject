@@ -21,14 +21,18 @@ def eval_calc(symbol):
     return
 
 def clr_calc():
+    e.delete(0, 'end')
+# for AC button
+def all_clr():
     return
 
 #creates UI components
 def create_components(root):
     #Entry Box
     e = Entry(root, width=40, borderwidth=5)
+    e.pack()
     e.grid(row = 0, column=0, columnspan=4, padx=1, pady=1)
-    
+
     #numerical buttons
     #instantiates buttons
     button0 = Button(root, text="0", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"0"))
@@ -59,11 +63,17 @@ def create_components(root):
     buttonPlus = Button(root, text="+", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"+"))
     buttonMultiply = Button(root, text="X", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"*"))
     buttonDivide = Button(root, text="/", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"/"))
+    buttonClear = Button(root, text="C", padx=20, pady=20, activebackground='gray', bg='white', command= clr_calc)
+    # needs added
+    # buttonAllClear = Button(root, text="AC", padx=20, pady=20, activebackground='gray', bg='white', command=lambda: append_calc(e,"/"))
+
     #arranges where button will display
     buttonEnter.grid(row = 4, column=2, columnspan=2)
     buttonPlus.grid(row = 3, column=3)
     buttonMultiply.grid(row = 2, column=3)
     buttonDivide.grid(row=1, column=3)
+    buttonClear.grid(row=5,column=3)
+    #buttonAllClear.grid(row=6,column=3)
 
 #ensures code can only be run as the main file
 if __name__ == "__main__":
