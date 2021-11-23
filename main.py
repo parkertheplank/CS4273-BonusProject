@@ -36,6 +36,12 @@ def valid_append(symbol):
         '*': mul,
         '/': truediv
     }
+    print("x = ", x)
+    print("digtal count top = ", digitCount)
+    print("dot count top = ",dotCount)
+
+
+
     try:
         if(text[len(text)-1] in op1 and symbol == "-" and alreadyHaveOp == False):
             alreadyHaveOp = True
@@ -58,7 +64,7 @@ def valid_append(symbol):
         else:
             return False
     else:
-        if digitCount >= 8 or dotCount >= 3:
+        if int(digitCount) >= 8 or int(dotCount) >= 3:
             return False
         else:
             digitCount+=1
@@ -95,23 +101,23 @@ def postCalc(d):
     floatResult = float(result)
     if(leftHasDec == True and rightHasDec ==True ):
         if(lengthOfDecOnLefttNum >= lengthOfDecOnRightNum):
-            if lengthOfDecOnLefttNum == 3: floatResult = "{:,.3f}".format(floatResult)
-            if lengthOfDecOnLefttNum == 2: floatResult = "{:,.2f}".format(floatResult)
-            if lengthOfDecOnLefttNum == 1: floatResult = "{:,.1f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 3: floatResult = "{:.3f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 2: floatResult = "{:.2f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 1: floatResult = "{:.1f}".format(floatResult)
         else:
-            if lengthOfDecOnRightNum == 3: floatResult = "{:,.3f}".format(floatResult)
-            if lengthOfDecOnRightNum == 2: floatResult = "{:,.2f}".format(floatResult)
-            if lengthOfDecOnRightNum == 1: floatResult = "{:,.1f}".format(floatResult)
+            if lengthOfDecOnRightNum == 3: floatResult = "{:.3f}".format(floatResult)
+            if lengthOfDecOnRightNum == 2: floatResult = "{:.2f}".format(floatResult)
+            if lengthOfDecOnRightNum == 1: floatResult = "{:.1f}".format(floatResult)
 
     if(leftHasDec == True and rightHasDec !=True ):
-            if lengthOfDecOnLefttNum == 3: floatResult = "{:,.3f}".format(floatResult)
-            if lengthOfDecOnLefttNum == 2: floatResult = "{:,.2f}".format(floatResult)
-            if lengthOfDecOnLefttNum == 1: floatResult = "{:,.1f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 3: floatResult = "{:.3f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 2: floatResult = "{:.2f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 1: floatResult = "{:.1f}".format(floatResult)
 
     if(leftHasDec != True and rightHasDec ==True ):
-            if lengthOfDecOnRightNum == 3: floatResult = "{:,.3f}".format(floatResult)
-            if lengthOfDecOnRightNum == 2: floatResult = "{:,.2f}".format(floatResult)
-            if lengthOfDecOnRightNum == 1: floatResult = "{:,.1f}".format(floatResult)
+            if lengthOfDecOnRightNum == 3: floatResult = "{:.3f}".format(floatResult)
+            if lengthOfDecOnRightNum == 2: floatResult = "{:.2f}".format(floatResult)
+            if lengthOfDecOnRightNum == 1: floatResult = "{:.1f}".format(floatResult)
 
     leftOfDecResult, dot, rightOfDecResult = floatResult.partition(".")
     resultWithoutDec= leftOfDecResult+rightOfDecResult
@@ -201,12 +207,33 @@ def eval_calc():
     global calc
     global x
     global text
-    
+    global digitCount
+    global dotCount
+    global startCount
     calc = str(postCalc(text))
     all_clr()
     x = len(calc)
     text = calc
-    e.insert(1, calc)  
+    e.insert(1, calc) 
+
+    # to fix going over  digits on the evaled number on the screen and 3 dec
+    if calc.find(".")!=-1:
+        calcedLeft, dot, calcedRight = calc.partition(".")
+        print("calcedRight = " ,calcedRight)
+        print("calcedLeft = ",calcedLeft)
+        digit = calcedLeft+calcedRight
+        print("digit = " , digit)
+        digit = str(digit)
+        print("digit = " , digit)
+        digitCount = len(digit)
+        print("digitcount = ", digitCount)
+        dotCount = len(calcedRight)
+        print("dotcount= ", dotCount)
+        startCount = True
+
+
+        
+
 
 def clr_calc():
     global x
@@ -214,6 +241,16 @@ def clr_calc():
     global dotCount
     global digitCount
     global alreadyHaveOp
+    global cheatingWay
+    global startCount
+
+    hold = text[-1:]
+   
+    print(hold)
+    if(hold=="."):
+        cheatingWay=True
+
+
     op1 = {
         '+': add,
         '-': sub,
@@ -224,12 +261,23 @@ def clr_calc():
         alreadyHaveOp = False
         
 
+
+
     if x>=0:                  # keeps spot to insert from going negtive
         e.delete(x-1, 'end')  # deletes last number on screen 
         text = text[:-1]      # deletes last number on text str
         x=x-1                 # moves spot to insert back 1
-        dotCount = dotCount-1
-        digitCount = digitCount -1
+        print("dc1= ", dotCount)
+        if(dotCount>0):dotCount = dotCount-1
+        print("dc2= ", dotCount)
+        if(digitCount>0):digitCount = digitCount -1
+    print(cheatingWay)
+    if(cheatingWay==True):
+        digitCount +=1
+        #dotCount += 1
+        startCount=False
+        cheatingWay =False
+    
 
 
 # for AC button
@@ -354,6 +402,8 @@ startCount = False
 negtive = False
 alreadyHaveOp = False
 once = False
+cheatingWay = False
+
 #ensures code can only be run as the main file
 if __name__ == "__main__":
     main()
