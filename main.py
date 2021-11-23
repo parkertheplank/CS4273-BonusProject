@@ -7,7 +7,8 @@ def main():
     #creates root window
     root = Tk()
     root.title("Calculator")
-    root.geometry("250x365")
+    #root.geometry("260x465")
+    root.resizable(0,0)
     root.configure(bg='Black')
     
     #creates the UI componenets
@@ -335,69 +336,64 @@ def dotTracker(symbol):             # for the bonus thats for the bonus part 2
 
 #creates UI components
 def create_components(root):
+    #formatting vars
+    fs = 25
+    ent_w = 10
+    boxw = int(ent_w/2)
+    boxh = 1
+    bord_pad = 5
+
     #Entry Box
     global e
-    e = Entry(root, width=40, borderwidth=5, justify=RIGHT)
-    e.grid(row = 0, column=0, columnspan=4, padx=1, pady=1)
+    e = Entry(root, width=ent_w+1, font=('Impact', fs*2), bg='light gray', justify=RIGHT)
+    e.grid(row = 0, column=0, padx=bord_pad, pady=bord_pad, columnspan=4)
 
     #numerical buttons
     #instantiates buttons
-    button0 = Button(root, font= 30, text="0", height=2, width=10, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"0"))
-    button1 = Button(root, font= 30, text="1", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"1"))
-    button2 = Button(root, font= 30, text="2", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"2"))
-    button3 = Button(root, font= 30, text="3", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"3"))
-    button4 = Button(root, font= 30, text="4", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"4"))
-    button5 = Button(root, font= 30, text="5", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"5"))
-    button6 = Button(root, font= 30, text="6", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"6"))
-    button7 = Button(root, font= 30, text="7", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"7"))
-    button8 = Button(root, font= 30, text="8", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"8"))
-    button9 = Button(root, font= 30, text="9", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"9"))
+    button0 = Button(root, font=('Impact', fs), text="0", width = 2*boxw, height= boxh, padx=2*bord_pad, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"0"))
+    button1 = Button(root, font=('Impact', fs), text="1", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"1"))
+    button2 = Button(root, font=('Impact', fs), text="2", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"2"))
+    button3 = Button(root, font=('Impact', fs), text="3", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"3"))
+    button4 = Button(root, font=('Impact', fs), text="4", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"4"))
+    button5 = Button(root, font=('Impact', fs), text="5", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"5"))
+    button6 = Button(root, font=('Impact', fs), text="6", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"6"))
+    button7 = Button(root, font=('Impact', fs), text="7", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"7"))
+    button8 = Button(root, font=('Impact', fs), text="8", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"8"))
+    button9 = Button(root, font=('Impact', fs), text="9", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"9"))
     #arranges where button will display
-    button0.grid(row = 5, column=0, columnspan=2)
-    button1.grid(row = 4, column=0)
-    button2.grid(row = 4, column=1)
-    button3.grid(row = 4, column=2)
-    button4.grid(row = 3, column=0)
-    button5.grid(row = 3, column=1)
-    button6.grid(row = 3, column=2)
-    button7.grid(row = 2, column=0)
-    button8.grid(row = 2, column=1)
-    button9.grid(row = 2, column=2)
+    button0.grid(row = 5, column=0, padx=bord_pad, pady=bord_pad, columnspan=2)
+    button1.grid(row = 4, column=0, padx=bord_pad, pady=bord_pad)
+    button2.grid(row = 4, column=1, padx=bord_pad, pady=bord_pad)
+    button3.grid(row = 4, column=2, padx=bord_pad, pady=bord_pad)
+    button4.grid(row = 3, column=0, padx=bord_pad, pady=bord_pad)
+    button5.grid(row = 3, column=1, padx=bord_pad, pady=bord_pad)
+    button6.grid(row = 3, column=2, padx=bord_pad, pady=bord_pad)
+    button7.grid(row = 2, column=0, padx=bord_pad, pady=bord_pad)
+    button8.grid(row = 2, column=1, padx=bord_pad, pady=bord_pad)
+    button9.grid(row = 2, column=2, padx=bord_pad, pady=bord_pad)
 
     #operation buttons
     #instantiates button
-    buttonEnter = Button(root, font= 30, text="=", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=eval_calc)
-    buttonMinus = Button(root, font= 30, text="-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"-"))
-    buttonPlus = Button(root, font= 30, text="+", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"+"))
-    buttonMultiply = Button(root, font= 30, text="X", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"*"))
-    buttonDivide = Button(root, font= 30, text="/", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"/"))
-    buttonClear = Button(root, font= 30, text="C", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command= clr_calc)
-    buttonAllClear = Button(root, font= 30, text="AC", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=all_clr)
-    buttonChangeSign = Button(root, font= 30, text="+/-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=lambda: change_sign(e))
-    buttonDot = Button(root, font= 30, text=".", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"."))
+    buttonEnter = Button(root, font=('Impact', fs), text="=", width = boxw, height= boxh, activebackground='light blue', bg='#d68d00', command=eval_calc)
+    buttonMinus = Button(root, font=('Impact', fs), text="-", width = boxw, height= boxh, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"-"))
+    buttonPlus = Button(root, font=('Impact', fs), text="+", width = boxw, height= boxh, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"+"))
+    buttonMultiply = Button(root, font=('Impact', fs), text="X", width = boxw, height= boxh, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"*"))
+    buttonDivide = Button(root, font=('Impact', fs), text="/", width = boxw, height= boxh, activebackground='light blue', bg='#d68d00', command=lambda: append_calc(e,"/"))
+    buttonClear = Button(root, font=('Impact', fs), text="C", width = boxw, height= boxh, activebackground='light blue', bg='#ffb11a', command= clr_calc)
+    buttonAllClear = Button(root, font=('Impact', fs), text="AC", width = boxw, height= boxh, activebackground='light blue', bg='#ffb11a', command=all_clr)
+    buttonChangeSign = Button(root, font=('Impact', fs), text="+/-", width = boxw, height= boxh, activebackground='light blue', bg='#ffb11a', command=lambda: change_sign(e))
+    buttonDot = Button(root, font=('Impact', fs), text=".", width = boxw, height= boxh, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"."))
 
     #arranges where button will display
-    buttonEnter.grid(row = 5, column=3)
-    buttonPlus.grid(row = 4, column=3)
-    buttonMultiply.grid(row = 2, column=3)
-    buttonDivide.grid(row=1, column=3)
-    buttonClear.grid(row=1,column=0)
-    buttonAllClear.grid(row=1,column=2)
-    buttonChangeSign.grid(row=1,column=1)
-    buttonDot.grid(row=5,column=2)
-    buttonMinus.grid(row=3,column=3)
-
-    # Helps With Allginment of buttons, I couldn't find a better way that didn't use 100 lines of code
-    buttonHelpsWithAllginment0 = Button(root, font= 30, text="you", height=3, width=4, padx=10, pady=1, activebackground='gray', bg='yellow')
-    buttonHelpsWithAllginment0.grid(row=1,column=4)
-    buttonHelpsWithAllginment1 = Button(root, font= 30, text="see", height=3, width=4, padx=10, pady=1, activebackground='gray', bg='yellow')
-    buttonHelpsWithAllginment1.grid(row=2,column=4)
-    buttonHelpsWithAllginment2 = Button(root, font= 30, text="nothing", height=3, width=4, padx=10, pady=1, activebackground='gray', bg='yellow')
-    buttonHelpsWithAllginment2.grid(row=3,column=4)
-    buttonHelpsWithAllginment3 = Button(root, font= 30, text="okay?", height=3, width=4, padx=10, pady=1, activebackground='gray', bg='yellow')
-    buttonHelpsWithAllginment3.grid(row=4,column=4)
-    buttonHelpsWithAllginment4 = Button(root, font= 30, text="bye", height=3, width=4, padx=10, pady=1, activebackground='gray', bg='yellow')
-    buttonHelpsWithAllginment4.grid(row=5,column=4)
+    buttonEnter.grid(row = 5, column=3, padx=bord_pad, pady=bord_pad)
+    buttonPlus.grid(row = 4, column=3, padx=bord_pad, pady=bord_pad)
+    buttonMultiply.grid(row = 2, column=3, padx=bord_pad, pady=bord_pad)
+    buttonDivide.grid(row=1, column=3, padx=bord_pad, pady=bord_pad)
+    buttonClear.grid(row=1,column=0, padx=bord_pad, pady=bord_pad)
+    buttonAllClear.grid(row=1,column=2, padx=bord_pad, pady=bord_pad)
+    buttonChangeSign.grid(row=1,column=1, padx=bord_pad, pady=bord_pad)
+    buttonDot.grid(row=5,column=2, padx=bord_pad, pady=bord_pad)
+    buttonMinus.grid(row=3,column=3, padx=bord_pad, pady=bord_pad)
 
 opCount=0
 x=0
