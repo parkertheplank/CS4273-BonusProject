@@ -18,11 +18,46 @@ def main():
 def append_calc(e, symbol):
     global x                  # tracker for spot to insert 
     global text               # tracker for equation 
-    if(length(text)==True and dotTracker()==True):   # for 8 dig rule
+    if(valid_append(symbol)):   # for 8 dig rule
         e.insert(x,symbol)    # adds text to screen
         text += str(symbol)   # add to str for equation
         x+=1                  # to track where to put the text    
         return
+
+def valid_append(symbol):
+    global text
+    global dotCount
+    global digitCount
+    global startCount
+    op1 = {
+        '+': add,
+        '-': sub,
+        '*': mul,
+        '/': truediv
+    }
+    if (symbol in op1):
+        if not (text[len(text)-1] in op1):
+            dotCount = 0
+            digitCount = 0
+            startCount = False
+            return True
+        else:
+            return False
+    elif symbol == '.':
+        if((not text[len(text)-1] in op1) and (text[len(text)-1] != '.')):
+            startCount = True
+            return True
+        else:
+            return False
+    else:
+        if digitCount >= 8 or dotCount >= 3:
+            return False
+        else:
+            digitCount+=1
+            if startCount:
+                dotCount+=1
+            return True
+    
 
 def length(eight):            # to track how many chars are in this for 8 digit only requirement
     if(len(text)<8):          # just changes from true to false 
@@ -46,9 +81,6 @@ def calculate(d):
         return float(d)
     for c in op1.keys():
         left, operator, right = d.partition(c)
-        print(left)
-        print(operator)
-        print(right)
         if operator in op1:
             return op1[operator](calculate(left), calculate(right))
 
@@ -82,6 +114,7 @@ def all_clr():
     global startCount
     startCount=False          # resets 3 dot count
     dotCount = 0              # resets 3 dot count
+    digitCount = 0
     e.delete(0, 'end')        # deletes everything 
     text =""                  # deletes everything on text str
     x=0                       # resets spot to insert
@@ -91,8 +124,9 @@ def all_clr():
 def change_sign(e):            # for the bonus thats for the bonus
     global text
     global x
-    if(text[:1] == "-"):      # if first char in str - delete it 
+    if(text[0] == '-'):      # if first char in str - delete it 
         text = str(text[1:])
+        e.delete(0)
     else:
         i = x
         x = 0
@@ -100,7 +134,7 @@ def change_sign(e):            # for the bonus thats for the bonus
         x = i
     return
 
-def dotTracker():             # for the bonus thats for the bonus part 2
+def dotTracker(symbol):             # for the bonus thats for the bonus part 2
     global startCount
     global three
     global dotCount
@@ -156,7 +190,7 @@ def create_components(root):
     buttonClear = Button(root, font= 30, text="C", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command= clr_calc)
     buttonAllClear = Button(root, font= 30, text="AC", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=all_clr)
     buttonChangeSign = Button(root, font= 30, text="+/-", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='#ffb11a', command=lambda: change_sign(e))
-    #buttonDot = Button(root, font= 30, text=".", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"."))
+    buttonDot = Button(root, font= 30, text=".", height=2, width=3, padx=10, pady=5, activebackground='light blue', bg='dark gray', command=lambda: append_calc(e,"."))
 
     #arranges where button will display
     buttonEnter.grid(row = 5, column=3)
@@ -166,7 +200,7 @@ def create_components(root):
     buttonClear.grid(row=1,column=0)
     buttonAllClear.grid(row=1,column=2)
     buttonChangeSign.grid(row=1,column=1)
-    #buttonDot.grid(row=5,column=2)
+    buttonDot.grid(row=5,column=2)
     buttonMinus.grid(row=3,column=3)
 
     # Helps With Allginment of buttons, I couldn't find a better way that didn't use 100 lines of code
@@ -184,8 +218,8 @@ def create_components(root):
 
 x=0
 text =""
-onInput2 = False
 dotCount=0
+digitCount = 0
 three = True
 startCount = False
 #ensures code can only be run as the main file
