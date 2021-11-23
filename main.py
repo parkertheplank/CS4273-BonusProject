@@ -1,3 +1,4 @@
+from io import open_code
 from tkinter import *
 import time
 from operator import pow, truediv, mul, add, sub  
@@ -30,39 +31,44 @@ def valid_append(symbol):
     global digitCount
     global startCount
     global alreadyHaveOp
+    global opCount
     op1 = {
         '+': add,
         '-': sub,
         '*': mul,
         '/': truediv
     }
-    print("x = ", x)
-    print("digtal count top = ", digitCount)
-    print("dot count top = ",dotCount)
 
 
 
     try:
         if(text[len(text)-1] in op1 and symbol == "-" and alreadyHaveOp == False):
             alreadyHaveOp = True
+            opCount +=1 
             return True
     except:
         pass
-
+    
+    
     if (symbol in op1):
-        if not (text[len(text)-1] in op1):
-            dotCount = 0
-            digitCount = 0
-            startCount = False
-            return True
-        else:
-            return False
+        if(alreadyHaveOp==False and opCount<1):
+            if not (text[len(text)-1] in op1):
+                dotCount = 0
+                digitCount = 0
+                startCount = False
+                opCount +=1 
+                return True
+            else:
+                return False
     elif symbol == '.':
-        if((not text[len(text)-1] in op1) and (text[len(text)-1] != '.')):
-            startCount = True
+        try:
+            if((not text[len(text)-1] in op1) and (text[len(text)-1] != '.')):
+                startCount = True
+                return True
+            else:
+                return False
+        except:
             return True
-        else:
-            return False
     else:
         if int(digitCount) >= 8 or int(dotCount) >= 3:
             return False
@@ -119,8 +125,11 @@ def postCalc(d):
             if lengthOfDecOnRightNum == 2: floatResult = "{:.2f}".format(floatResult)
             if lengthOfDecOnRightNum == 1: floatResult = "{:.1f}".format(floatResult)
 
-    leftOfDecResult, dot, rightOfDecResult = floatResult.partition(".")
-    resultWithoutDec= leftOfDecResult+rightOfDecResult
+    try:
+        leftOfDecResult, dot, rightOfDecResult = floatResult.partition(".")
+        resultWithoutDec= leftOfDecResult+rightOfDecResult
+    except:
+        resultWithoutDec = len(str(floatResult))-1
 
     lengthOfResult = len(resultWithoutDec)
     if(lengthOfResult > 8):
@@ -210,25 +219,21 @@ def eval_calc():
     global digitCount
     global dotCount
     global startCount
+    global opCount
     calc = str(postCalc(text))
     all_clr()
     x = len(calc)
     text = calc
     e.insert(1, calc) 
+    opCount = 0
 
     # to fix going over  digits on the evaled number on the screen and 3 dec
     if calc.find(".")!=-1:
         calcedLeft, dot, calcedRight = calc.partition(".")
-        print("calcedRight = " ,calcedRight)
-        print("calcedLeft = ",calcedLeft)
         digit = calcedLeft+calcedRight
-        print("digit = " , digit)
         digit = str(digit)
-        print("digit = " , digit)
         digitCount = len(digit)
-        print("digitcount = ", digitCount)
         dotCount = len(calcedRight)
-        print("dotcount= ", dotCount)
         startCount = True
 
 
@@ -243,10 +248,10 @@ def clr_calc():
     global alreadyHaveOp
     global cheatingWay
     global startCount
+    global opCount
 
     hold = text[-1:]
    
-    print(hold)
     if(hold=="."):
         cheatingWay=True
 
@@ -259,6 +264,7 @@ def clr_calc():
     }
     if (text[len(text)-1] in op1):
         alreadyHaveOp = False
+        opCount = opCount-1
         
 
 
@@ -267,11 +273,8 @@ def clr_calc():
         e.delete(x-1, 'end')  # deletes last number on screen 
         text = text[:-1]      # deletes last number on text str
         x=x-1                 # moves spot to insert back 1
-        print("dc1= ", dotCount)
         if(dotCount>0):dotCount = dotCount-1
-        print("dc2= ", dotCount)
         if(digitCount>0):digitCount = digitCount -1
-    print(cheatingWay)
     if(cheatingWay==True):
         digitCount +=1
         #dotCount += 1
@@ -287,6 +290,10 @@ def all_clr():
     global dotCount
     global startCount
     global digitCount
+    global alreadyHaveOp
+    global opCount
+    opCount =0
+    alreadyHaveOp = False
     startCount=False          # resets 3 dot count
     dotCount = 0              # resets 3 dot count
     digitCount = 0
@@ -392,7 +399,7 @@ def create_components(root):
     buttonHelpsWithAllginment4 = Button(root, font= 30, text="bye", height=3, width=4, padx=10, pady=1, activebackground='gray', bg='yellow')
     buttonHelpsWithAllginment4.grid(row=5,column=4)
 
-
+opCount=0
 x=0
 text =""
 dotCount=0
