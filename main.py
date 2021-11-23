@@ -21,7 +21,7 @@ def append_calc(e, symbol):
     if(valid_append(symbol)):   # for 8 dig rule
         e.insert(x,symbol)    # adds text to screen
         text += str(symbol)   # add to str for equation
-        x+=1                  # to track where to put the text    
+        x+=1                  # to track where to put the text   
         return
 
 def valid_append(symbol):
@@ -29,12 +29,20 @@ def valid_append(symbol):
     global dotCount
     global digitCount
     global startCount
+    global alreadyHaveOp
     op1 = {
         '+': add,
         '-': sub,
         '*': mul,
         '/': truediv
     }
+    try:
+        if(text[len(text)-1] in op1 and symbol == "-" and alreadyHaveOp == False):
+            alreadyHaveOp = True
+            return True
+    except:
+        pass
+
     if (symbol in op1):
         if not (text[len(text)-1] in op1):
             dotCount = 0
@@ -66,7 +74,109 @@ def length(eight):            # to track how many chars are in this for 8 digit 
         False           
     return eight
 
+def postCalc(d):
+    leftHasDec = False
+    rightHasDec = False
+    result, leftNum, rightNum  = calculate(d)
+    result= str(result)
+    if(type(leftNum) == float):
+        leftHasDec = True
+        hold1 = str(leftNum)
+        leftOfDec, dot, rightOfDec = hold1.partition(".")
+        lengthOfDecOnLefttNum = len(rightOfDec)
+        leftHasDec = True
 
+    if(type(rightNum) == float):
+        hold2 = str(rightNum)
+        leftOfDec, dot, rightOfDec = hold2.partition(".")
+        lengthOfDecOnRightNum = len(rightOfDec)
+        rightHasDec = True
+    
+    floatResult = float(result)
+    if(leftHasDec == True and rightHasDec ==True ):
+        if(lengthOfDecOnLefttNum >= lengthOfDecOnRightNum):
+            if lengthOfDecOnLefttNum == 3: floatResult = "{:,.3f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 2: floatResult = "{:,.2f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 1: floatResult = "{:,.1f}".format(floatResult)
+        else:
+            if lengthOfDecOnRightNum == 3: floatResult = "{:,.3f}".format(floatResult)
+            if lengthOfDecOnRightNum == 2: floatResult = "{:,.2f}".format(floatResult)
+            if lengthOfDecOnRightNum == 1: floatResult = "{:,.1f}".format(floatResult)
+
+    if(leftHasDec == True and rightHasDec !=True ):
+            if lengthOfDecOnLefttNum == 3: floatResult = "{:,.3f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 2: floatResult = "{:,.2f}".format(floatResult)
+            if lengthOfDecOnLefttNum == 1: floatResult = "{:,.1f}".format(floatResult)
+
+    if(leftHasDec != True and rightHasDec ==True ):
+            if lengthOfDecOnRightNum == 3: floatResult = "{:,.3f}".format(floatResult)
+            if lengthOfDecOnRightNum == 2: floatResult = "{:,.2f}".format(floatResult)
+            if lengthOfDecOnRightNum == 1: floatResult = "{:,.1f}".format(floatResult)
+
+    leftOfDecResult, dot, rightOfDecResult = floatResult.partition(".")
+    resultWithoutDec= leftOfDecResult+rightOfDecResult
+
+    lengthOfResult = len(resultWithoutDec)
+    if(lengthOfResult > 8):
+        print("User can see 'ERR' displayed if any operation would exceed the 8 digit maximum.")
+        return "ERR"
+    return floatResult
+
+def calculate(d):
+    global text
+    global negtive
+    global alreadyHaveOp
+
+    if d[:1] == '-':
+        d = str(d[1:])
+        negtive=True
+    if d.find("+")!=-1:
+       left, operator, right = d.partition("+")
+       l = float(left)
+       r = float(right)
+       if(negtive==True):
+            negtive = False
+            alreadyHaveOp = False
+            return (-l+r), l,r
+       else:
+             alreadyHaveOp = False
+             return (l+r), l,r
+    elif d.find("/")!=-1:
+       left, operator, right = d.partition("/")
+       l = float(left)
+       r = float(right)
+       if(negtive==True):
+            negtive = False
+            alreadyHaveOp = False
+            return (-l/r), l,r
+       else:
+             alreadyHaveOp = False
+             return (l/r)  , l,r 
+    elif d.find("*")!=-1:
+       left, operator, right = d.partition("*")
+       l = float(left)
+       r = float(right)
+       if(negtive==True):
+            negtive = False
+            alreadyHaveOp = False
+            return (-l*r), l,r
+       else:
+             alreadyHaveOp = False
+             return (l*r), l,r
+    elif d.find("-")!=-1:
+       left, operator, right = d.partition("-")
+       l = float(left)
+       r = float(right)
+       if(negtive==True):
+            negtive = False
+            alreadyHaveOp = False
+            return (-l-r), l,r
+       else:
+             alreadyHaveOp = False
+             return (l-r), l,r
+
+ 
+'''
 def calculate(d):
     op1 = {
         '+': add,
@@ -74,7 +184,7 @@ def calculate(d):
         '*': mul,
         '/': truediv
     }
-
+    print ("d= " + d)
     try:
         d = float(d)
     except:
@@ -85,13 +195,14 @@ def calculate(d):
         left, operator, right = d.partition(c)
         if operator in op1:
             return op1[operator](calculate(left), calculate(right))
+'''
 
 def eval_calc():
     global calc
     global x
     global text
     
-    calc = str(calculate(text))
+    calc = str(postCalc(text))
     all_clr()
     x = len(calc)
     text = calc
@@ -102,6 +213,17 @@ def clr_calc():
     global text
     global dotCount
     global digitCount
+    global alreadyHaveOp
+    op1 = {
+        '+': add,
+        '-': sub,
+        '*': mul,
+        '/': truediv
+    }
+    if (text[len(text)-1] in op1):
+        alreadyHaveOp = False
+        
+
     if x>=0:                  # keeps spot to insert from going negtive
         e.delete(x-1, 'end')  # deletes last number on screen 
         text = text[:-1]      # deletes last number on text str
@@ -129,7 +251,6 @@ def all_clr():
 def change_sign(e):            # for the bonus thats for the bonus
     global text
     global x
-    print("text = "  +text)
     if(text[:1] == '-'):      # if first char in str - delete it 
         text = str(text[1:])
         e.delete(0)
@@ -230,6 +351,9 @@ dotCount=0
 digitCount = 0
 three = True
 startCount = False
+negtive = False
+alreadyHaveOp = False
+once = False
 #ensures code can only be run as the main file
 if __name__ == "__main__":
     main()
