@@ -129,14 +129,17 @@ def all_clr():
 def change_sign(e):            # for the bonus thats for the bonus
     global text
     global x
-    if(text[0] == '-'):      # if first char in str - delete it 
+    print("text = "  +text)
+    if(text[:1] == '-'):      # if first char in str - delete it 
         text = str(text[1:])
         e.delete(0)
     else:
         i = x
         x = 0
-        text = append_calc(e,"-")     # if first char in str is nothing then add + 
+        text = "-" + text[0:]
+        e.insert(x,"-")    # if first char in str is nothing then add + 
         x = i
+        x += 1
     return
 
 def dotTracker(symbol):             # for the bonus thats for the bonus part 2
