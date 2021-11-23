@@ -61,7 +61,9 @@ def valid_append(symbol):
 
 def length(eight):            # to track how many chars are in this for 8 digit only requirement
     if(len(text)<8):          # just changes from true to false 
-        eight=True            
+        eight=True 
+    else:
+        False           
     return eight
 
 
@@ -99,11 +101,13 @@ def clr_calc():
     global x
     global text
     global dotCount
+    global digitCount
     if x>=0:                  # keeps spot to insert from going negtive
         e.delete(x-1, 'end')  # deletes last number on screen 
         text = text[:-1]      # deletes last number on text str
         x=x-1                 # moves spot to insert back 1
         dotCount = dotCount-1
+        digitCount = digitCount -1
 
 
 # for AC button
@@ -112,6 +116,7 @@ def all_clr():
     global text
     global dotCount
     global startCount
+    global digitCount
     startCount=False          # resets 3 dot count
     dotCount = 0              # resets 3 dot count
     digitCount = 0
