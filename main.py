@@ -26,7 +26,7 @@ def append_calc(e, symbol):
         x+=1                  # to track where to put the text   
         return
 
-def valid_append(symbol):
+def valid_append(symbol):     #determins if the symbol is valid to add to the calculation
     global text
     global dotCount
     global digitCount
@@ -42,8 +42,8 @@ def valid_append(symbol):
 
 
 
-    try:
-        if(text[len(text)-1] in op1 and symbol == "-" and alreadyHaveOp == False):
+    try:    #determins if a - can be added 
+        if(text[len(text)-1] in op1 and symbol == "-" and alreadyHaveOp == False): 
             alreadyHaveOp = True
             opCount +=1 
             return True
@@ -51,7 +51,7 @@ def valid_append(symbol):
         pass
     
     
-    if (symbol in op1):
+    if (symbol in op1):     #handles adding a operation to the calculation
         if(alreadyHaveOp==False and opCount<1):
             if not (text[len(text)-1] in op1):
                 dotCount = 0
@@ -61,7 +61,7 @@ def valid_append(symbol):
                 return True
             else:
                 return False
-    elif symbol == '.':
+    elif symbol == '.':     #handles adding a decimal to the calculation
         try:
             if((not text[len(text)-1] in op1) and (text[len(text)-1] != '.')):
                 startCount = True
@@ -70,7 +70,7 @@ def valid_append(symbol):
                 return False
         except:
             return True
-    else:
+    else:       #handles adding digits to the calculation
         if int(digitCount) >= 8 or int(dotCount) >= 3:
             return False
         else:
@@ -241,7 +241,7 @@ def eval_calc():
         
 
 
-def clr_calc():
+def clr_calc():     #clears the last digit from the calculation
     global x
     global text
     global dotCount
@@ -285,7 +285,7 @@ def clr_calc():
 
 
 # for AC button
-def all_clr():
+def all_clr():  #deletes every value on the screen 
     global x
     global text
     global dotCount
@@ -304,7 +304,7 @@ def all_clr():
     return
 
     
-def change_sign(e):            # for the bonus thats for the bonus
+def change_sign(e):            # negates the first number in the calculation
     global text
     global x
     if(text[:1] == '-'):      # if first char in str - delete it 
